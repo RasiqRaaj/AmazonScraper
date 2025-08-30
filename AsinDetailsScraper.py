@@ -11,8 +11,8 @@ import json
 # --- Database Config ---
 db_params = {
     'user': 'postgres',
-    'password': 'rasiqsir',
-    'database': 'newVenta3',
+    'password': '',
+    'database': '',
     'host': 'localhost',
     'port': '5432'
 }
