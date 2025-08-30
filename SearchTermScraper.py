@@ -246,8 +246,8 @@ def process_search(conn, profile_id, fk_mp_id, marketplace_name, search_terms):
 def main():
     DB_CONFIG = {
         'user': 'postgres',
-        'password': 'rasiqsir',
-        'database': 'newVenta4',
+        'password': '',
+        'database': '',
         'host': 'localhost',
         'port': 5432,
     }
