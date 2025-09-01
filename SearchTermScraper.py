@@ -220,17 +220,37 @@ def get_marketplace_and_profiles(conn):
         profiles = cur.fetchall()
     return marketplace_dict, profiles
 
+# def get_search_terms(conn, profile_id):
+#     with conn.cursor() as cur:
+#         cur.execute("""
+#             SELECT ms.search_term
+#             FROM marketing_search_term_data ms
+#             JOIN marketing_ad_group_master mag ON ms.fk_ad_group_id = mag.ad_group_id
+#             JOIN marketing_profile_id mpi ON mag.fk_profile_id = mpi.profile_id
+#             WHERE mpi.profile_id = %s
+#         """, (profile_id,))
+#         rows = cur.fetchall()
+#     return [row[0] for row in rows if row[0]]
+
+
+
 def get_search_terms(conn, profile_id):
     with conn.cursor() as cur:
         cur.execute("""
-            SELECT ms.search_term
+            SELECT ms.search_term, SUM(ms.units)
             FROM marketing_search_term_data ms
             JOIN marketing_ad_group_master mag ON ms.fk_ad_group_id = mag.ad_group_id
             JOIN marketing_profile_id mpi ON mag.fk_profile_id = mpi.profile_id
             WHERE mpi.profile_id = %s
+            GROUP BY ms.search_term
+            ORDER BY SUM(ms.units) DESC
+            LIMIT 50
         """, (profile_id,))
         rows = cur.fetchall()
-    return [row[0] for row in rows if row[0]]
+    return [(row[0], row[1]) for row in rows if row[0]]
+
+
+
 
 def process_search(conn, profile_id, fk_mp_id, marketplace_name, search_terms):
     for query in search_terms:
