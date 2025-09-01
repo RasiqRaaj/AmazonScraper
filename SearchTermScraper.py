@@ -204,6 +204,8 @@ def insert_search_results(conn, fk_profile_id, fk_mp_id, search_term, products):
         execute_values(cur, insert_query, values, page_size=100)  # Efficient batch size
     conn.commit()
 
+
+
 def get_marketplace_and_profiles(conn):
     marketplace_dict = {}
     with conn.cursor() as cur:
@@ -220,6 +222,9 @@ def get_marketplace_and_profiles(conn):
         profiles = cur.fetchall()
     return marketplace_dict, profiles
 
+
+#for all Search terms
+
 # def get_search_terms(conn, profile_id):
 #     with conn.cursor() as cur:
 #         cur.execute("""
@@ -233,7 +238,7 @@ def get_marketplace_and_profiles(conn):
 #     return [row[0] for row in rows if row[0]]
 
 
-
+#for top 50  Search terms  based on units 
 def get_search_terms(conn, profile_id):
     with conn.cursor() as cur:
         cur.execute("""
